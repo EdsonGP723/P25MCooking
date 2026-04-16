@@ -10,22 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
+import dj_database_url
+from datetime import timedelta
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar variables de entorno (El archivo .env está 2 niveles arriba: p25/p25/.. -> Backend -> 25MCoocking)
+load_dotenv(BASE_DIR.parent.parent / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c0l^!xf(fc_m4p#l4+#l!3^*y9u817*f@m_e$h!t$9%-x@pyti'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-c0l^!xf(fc_m4p#l4+#l!3^*y9u817*f@m_e$h!t$9%-x@pyti')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,11 +44,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Paquetes de Terceros
+    'corsheaders',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'cloudinary_storage',
+    'cloudinary',
+
+    # Aplicaciones Propias
+    'recipes',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', # Habilita peticiones desde el Frontend
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -72,11 +90,15 @@ WSGI_APPLICATION = 'p25.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Fallback en caso de que DATABASE_URL esté en blanco en el .env
+default_db_url = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+database_url_env = os.getenv('DATABASE_URL', '').strip()
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        database_url_env if database_url_env else default_db_url,
+        conn_max_age=600
+    )
 }
 
 
@@ -120,3 +142,29 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ========== CONFIGURACIÓN PERSONALIZADA ==========
+
+# CORS (Permitir conexión con React/Vite)
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'core.renderers.StandardResponseRenderer', # Envoltorio JSON unificado
+        'rest_framework.renderers.JSONRenderer', # Interfaz por si el custom falla
+    ),
+}
+
+# SimpleJWT Custom Config
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+# Cloudinary
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

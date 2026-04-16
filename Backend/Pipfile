@@ -10,6 +10,12 @@ djangorestframework-simplejwt = "*"
 pillow = "*"
 pytest = "*"
 pytest-django = "*"
+django-cors-headers = "*"
+cloudinary = "*"
+django-cloudinary-storage = "*"
+python-dotenv = "*"
+dj-database-url = "*"
+psycopg-binary = "*"
 
 [dev-packages]
 
