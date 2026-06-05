@@ -3,12 +3,12 @@ export default function HeroSection() {
     <section className="relative pt-32 pb-20 px-8 overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="z-10">
-          <span className="text-primary font-medium tracking-widest text-xs uppercase mb-4 block">WELCOME HOME, MUSE</span>
+          <span className="text-primary font-medium tracking-widest text-xs uppercase mb-4 block">BIENVENIDA A CASA, MUSA</span>
           <h1 className="serif-display text-7xl md:text-8xl lg:text-9xl text-on-surface leading-tight -tracking-widest italic mb-6">
             Te amo preciosa
           </h1>
           <p className="text-on-surface-variant text-lg md:text-xl max-w-md leading-relaxed mb-8">
-            A curated sanctuary of botanical flavors, designed for the modern home cook who finds poetry in every fresh ingredient.
+            Un santuario de sabores seleccionado para ti. Encuentra inspiración en cada ingrediente fresco.
           </p>
         </div>
         <div className="relative">

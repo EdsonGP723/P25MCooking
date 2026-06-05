@@ -1,2 +1,7 @@
 .env
 *.sqlite3
+skills-lock.json
+
+# Carpetas de configuración y cachés de agentes de IA
+.agents/
+.agnts/

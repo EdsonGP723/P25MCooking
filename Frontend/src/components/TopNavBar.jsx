@@ -13,37 +13,20 @@ export default function TopNavBar() {
           The Botanical Atelier
         </Link>
         
-        <div className="hidden md:flex items-center space-x-8 font-serif text-lg tracking-tight">
-          <a className="text-emerald-700 dark:text-emerald-300 border-b-2 border-emerald-700/30 pb-1" href="#">Breakfast</a>
-          <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors duration-300" href="#">Lunch</a>
-          <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors duration-300" href="#">Dinner</a>
-          <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors duration-300" href="#">Dessert</a>
-          <a className="text-stone-600 dark:text-stone-400 hover:text-emerald-900 dark:hover:text-emerald-200 transition-colors duration-300" href="#">Drinks</a>
-        </div>
-        
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
-            <input 
-              className="pl-10 pr-4 py-2 rounded-full border-none bg-stone-100/50 dark:bg-stone-800/50 text-sm focus:ring-1 focus:ring-primary/20 w-48 lg:w-64" 
-              placeholder="Search curated tastes..." 
-              type="text" 
-            />
-          </div>
-          
           {isAuthenticated ? (
             <button 
               onClick={logout}
-              className="border-2 border-primary text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary/10 transition-colors"
+              className="border-2 border-primary text-primary px-6 py-2 rounded-full text-sm font-semibold hover:bg-primary hover:text-on-primary hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-md"
             >
-              Logout
+              Cerrar Sesión
             </button>
           ) : (
             <button 
               onClick={() => navigate('/login')}
               className="gradient-btn text-on-primary px-6 py-2 rounded-full text-sm font-semibold scale-95 active:scale-90 transition-transform"
             >
-              Login
+              Iniciar Sesión
             </button>
           )}
         </div>

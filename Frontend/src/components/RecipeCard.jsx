@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { optimizeCloudinaryUrl } from '../utils/imageOptimizer';
 
 export default function RecipeCard({ recipe, index }) {
   // Translate properties to match the Stitch design mapping
@@ -6,11 +7,12 @@ export default function RecipeCard({ recipe, index }) {
   
   return (
     <Link to={`/recipe/${recipe.id}`} className={`group block ${index % 3 === 1 ? 'lg:translate-y-12' : ''}`}>
-      <div className="relative mb-6 rounded-lg overflow-hidden">
+      <div className="relative mb-6 rounded-lg overflow-hidden bg-surface-container-low">
         <img 
           alt={recipe.nombre} 
           className="w-full aspect-[4/5] object-cover rounded-lg group-hover:scale-105 transition-transform duration-500" 
-          src={recipe.imagen}
+          src={optimizeCloudinaryUrl(recipe.imagen, 500)}
+          loading="lazy"
         />
         <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-primary tracking-widest uppercase">
           {recipe.categoria}
@@ -31,10 +33,22 @@ export default function RecipeCard({ recipe, index }) {
       <div className="space-y-4">
         {/* Usamos el ingrediente real si existe, o un dummy visual si la data real falta */}
         <p className="text-sm text-on-surface-variant font-medium">
-          {Array.isArray(recipe.ingredientes) ? recipe.ingredientes.slice(0,4).join(', ') + '...' : "Ingredientes cargando..."}
+          {(() => {
+            let items = recipe.ingredientes;
+            if (typeof items === 'string') {
+              try { items = JSON.parse(items); } catch(e) { /* keep as string */ }
+            }
+            return Array.isArray(items) ? items.slice(0,3).join(', ') + '...' : (items || "Ingredientes cargando...");
+          })()}
         </p>
         <p className="text-sm text-on-surface-variant leading-relaxed line-clamp-3">
-          {recipe.instrucciones}
+          {(() => {
+            let inst = recipe.instrucciones;
+            if (typeof inst === 'string') {
+              try { inst = JSON.parse(inst); } catch(e) { /* keep as string */ }
+            }
+            return Array.isArray(inst) ? (inst[0]?.desc || inst[0] || "") : inst;
+          })()}
         </p>
       </div>
     </Link>
