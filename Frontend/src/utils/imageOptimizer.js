@@ -8,7 +8,10 @@
  * @returns {string} - La URL optimizada o la original si no es de Cloudinary.
  */
 export function optimizeCloudinaryUrl(url, width = 800) {
-  if (!url || typeof url !== 'string') return url;
+  if (!url || typeof url !== 'string') {
+    // Si no hay imagen, devolvemos la ruta de nuestro placeholder premium local
+    return '/placeholder_recipe.png';
+  }
 
   // Solo optimizamos si la imagen proviene del dominio de Cloudinary
   if (url.includes('res.cloudinary.com')) {

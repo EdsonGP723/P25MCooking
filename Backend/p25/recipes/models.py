@@ -16,7 +16,7 @@ class Recipe(models.Model):
     categoria = models.CharField(
         max_length=50, choices=CATEGORY_CHOICES, help_text="Categoría de la receta.")
     imagen = CloudinaryField(
-        'img', folder="recetas", help_text="URL de la imagen gestionada en Cloudinary.")
+        'img', folder="recetas", blank=True, null=True, help_text="URL de la imagen gestionada en Cloudinary.")
     instrucciones = models.TextField(
         help_text="Paso a paso de la preparación.")
     # Usamos JSONField para guardar la lista de ingredientes (strings) como requirió el usuario.

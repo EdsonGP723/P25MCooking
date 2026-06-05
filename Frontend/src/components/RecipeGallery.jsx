@@ -27,7 +27,7 @@ function RecipeCardSkeleton() {
   );
 }
 
-export default function RecipeGallery({ onOpenAddModal, searchQuery = '', activeFilter = 'All' }) {
+export default function RecipeGallery({ onOpenAddModal, searchQuery = '', activeFilter = 'All', refreshTrigger }) {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,7 +46,7 @@ export default function RecipeGallery({ onOpenAddModal, searchQuery = '', active
     };
     
     fetchRecipes();
-  }, []);
+  }, [refreshTrigger]);
 
   const filteredRecipes = useMemo(() => {
     return recipes.filter(recipe => {

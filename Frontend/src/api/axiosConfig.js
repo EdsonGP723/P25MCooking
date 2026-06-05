@@ -37,7 +37,7 @@ api.interceptors.response.use(
         try {
           // Solicitamos un nuevo access token usando el refresh token.
           // Usamos una instancia limpia de axios para no disparar interceptores infinitos
-          const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/token/refresh/`, {
+          const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/refresh/`, {
             refresh: refreshToken
           });
           
