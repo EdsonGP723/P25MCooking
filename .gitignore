@@ -5,3 +5,4 @@ skills-lock.json
 # Carpetas de configuración y cachés de agentes de IA
 .agents/
 .agnts/
+graphify-out/

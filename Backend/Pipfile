@@ -16,6 +16,7 @@ django-cloudinary-storage = "*"
 python-dotenv = "*"
 dj-database-url = "*"
 psycopg-binary = "*"
+graphifyy = "*"
 
 [dev-packages]
 
