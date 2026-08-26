@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==5.2.13"
+django = ">=5.2,<6.0"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 pillow = "*"
@@ -15,8 +15,8 @@ cloudinary = "*"
 django-cloudinary-storage = "*"
 python-dotenv = "*"
 dj-database-url = "*"
-psycopg-binary = "*"
-graphifyy = "*"
+psycopg = {extras = ["binary"], version = "*"}
+psycopg2-binary = "*"
 gunicorn = "*"
 whitenoise = "*"
 
