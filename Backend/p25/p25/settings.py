@@ -34,7 +34,10 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+# Hosts permitidos (leídos desde .env separados por comas, ej: "localhost,127.0.0.1")
+allowed_hosts_env = os.getenv('ALLOWED_HOSTS', '*')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(',') if host.strip()]
+
 
 
 # Application definition
@@ -156,7 +159,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ========== CONFIGURACIÓN PERSONALIZADA ==========
 
 # CORS (Permitir conexión con React/Vite)
-CORS_ALLOW_ALL_ORIGINS = True
+# Si se especifica CORS_ALLOWED_ORIGINS en .env (ej: "http://localhost:5173,http://127.0.0.1:5173"), se usa esa lista.
+# De lo contrario, se respeta el flag CORS_ALLOW_ALL_ORIGINS (por defecto True en desarrollo).
+cors_allowed_env = os.getenv('CORS_ALLOWED_ORIGINS', '').strip()
+if cors_allowed_env:
+    CORS_ALLOWED_ORIGINS = [origin.strip() for origin in cors_allowed_env.split(',') if origin.strip()]
+    CORS_ALLOW_ALL_ORIGINS = False
+else:
+    CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS', 'True') == 'True'
+
 
 # Django REST Framework
 REST_FRAMEWORK = {
